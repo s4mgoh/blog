@@ -1,0 +1,113 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Card from "@components/Card.vue";
+import Toc from "@components/Toc.vue";
+import PostHeader from "@components/PostHeader.vue";
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts.map(post => ({
+    params: { 
+      id: post.id
+    }
+  }))
+}
+
+const posts = (await getCollection("blog")).sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
+
+const post = posts.find(post => post.id === Astro.params.id)
+
+if (post === undefined) return Astro.rewrite("/404");
+
+const postsForCategory = posts.filter(p => p.data.category === post.data.category)
+
+// get post index again..
+const postIndex = postsForCategory.findIndex(post => post.id === Astro.params.id)
+
+const prevPost = postIndex > 0 ? postsForCategory[postIndex - 1] : null;
+const nextPost = postIndex < postsForCategory.length ? postsForCategory[postIndex + 1] : null;
+
+const { Content, headings, remarkPluginFrontmatter } = await render(post);
+---
+
+<Layout title={post.data.title}>
+  <div class="relative flex justify-center pt-[80px] md:pt-[125px] px-6 md:px-32 mx-auto">
+    {
+    // ToC for lg and above - appears on the side of content
+    headings.length > 0 && 
+    <div class="sticky lg:w-[125px] xl:max-w-[200px] self-start hidden lg:block mr-10 top-[125px]">
+      <div class="text-xl font-bold text-[--second-text-color] py-2">
+        Contents
+      </div>
+      <div class="h-[calc(100vh-250px)]" ss-container>
+        <Toc client:load headings={headings} />
+      </div>
+    </div>
+    }
+    <div data-main-content class="flex flex-col gap-10 min-w-[300px] md:w-[748px] lg:w-[904px] xl:w-[1180px]">
+      <div class="flex flex-col gap-2 relative">
+        <Card class="!bg-[--primary-bg] items-center rounded-none md:rounded-lg -mx-6 md:mx-0 p-10 lg:px-12">
+          <div class="pb-10">
+            <PostHeader client:load post={post} remarkPluginFrontmatter={remarkPluginFrontmatter} />
+          </div>
+          {
+            // ToC for xs to md - appears between PostHeader and body
+            headings.length > 0 &&
+            <details open class="lg:hidden group p-5 mb-5 border border-[--secondary-bg] rounded-lg">
+              <summary class="flex justify-between">
+                <div class="text-xl font-bold text-[--second-text-color] py-2">
+                  Contents
+                </div>
+              <i class="transition-all my-auto text-sm text-white fa-regular fa-chevron-down group-open:rotate-180"></i>
+              </summary>
+              <div class="max-h-96 overflow-y-scroll">
+                <Toc client:load headings={headings} />
+              </div>
+            </details>
+          }
+          <div class="markdown-body">
+            <Content />
+          </div>
+
+          <div class="flex justify-between mt-6 py-6 border-t border-[--secondary-bg]">
+            {prevPost ? (
+            <a class="p-3 border border-[--secondary-bg] rounded-lg" href={"/posts/" + prevPost.id}>
+                <i class="fa-regular fa-angle-left"></i>
+                {prevPost.data.title}
+              </a>
+            ) : <div></div>
+            }
+            {nextPost ? (
+            <a class="p-3 border border-[--secondary-bg] rounded-lg" href={"/posts/" + nextPost.id}>
+              {nextPost.data.title}
+              <i class="fa-regular fa-angle-right"></i>
+            </a>
+            ) : <div></div>
+            }
+          </div>
+          
+          <!-- TODO: Change the values -->
+          <!-- <script is:inline src="https://giscus.app/client.js"
+            data-repo="s4mgoh/blog"
+            data-repo-id=""
+            data-category=""
+            data-category-id=""
+            data-mapping="pathname"
+            data-strict="0"
+            data-reactions-enabled="1"
+            data-emit-metadata="1"
+            data-input-position="bottom"
+            data-theme="noborder_dark"
+            data-lang="en"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async
+          ></script> -->
+        </Card>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<script is:inline src="/assets/simple-scrollbar.js"></script>
