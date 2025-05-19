@@ -1,5 +1,3 @@
-<img src="https://github.com/user-attachments/assets/">
-
 # [s4mgoh.com](https://s4mgoh.com)
 
 My personal blog & portfolio site. Built with Astro, Vue, MDX and TailwindCSS,
