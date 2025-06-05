@@ -5,11 +5,13 @@ excerpt: My first ever pwn of a box
 category: writeups
 tags:
    - writeups
+   - vulnbox
+   - pwned
 ---
 
 # Pootato Virtual Machine (VM)
 
-Huge Thanks & Credits to my senior at [Custodio Technologies](https://www.custodiotech.com.sg/) who created the VM ([hongecc](https://github.com/hongecc))
+Huge Thanks & Credits to my senior at [Custodio Technologies](https://www.custodiotech.com.sg/) who created the VM ([hongecc](https://github.com/hongecc) aka Charles)
 
 VM file link: https://drive.google.com/file/d/19pDwTe_qEJr2y3Jow0lt3HVToY7rqcbM/view?usp=sharing
 
