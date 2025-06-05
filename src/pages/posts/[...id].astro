@@ -22,7 +22,7 @@ if (post === undefined) return Astro.rewrite("/404");
 
 const postsForCategory = posts.filter(p => p.data.category === post.data.category)
 
-// get post index again..
+// get post index again
 const postIndex = postsForCategory.findIndex(post => post.id === Astro.params.id)
 
 const prevPost = postIndex > 0 ? postsForCategory[postIndex - 1] : null;

@@ -19,6 +19,7 @@
     "@duskmoon/vue3-typed-js": "^0.0.4",
     "@rehype-pretty/transformers": "^0.13.2",
     "@shikijs/transformers": "^1.24.4",
+    "@vercel/analytics": "^1.5.0",
     "mdast-util-to-string": "^4.0.0",
     "reading-time": "^1.5.0",
     "rehype-pretty-code": "^0.14.1",

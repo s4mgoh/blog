@@ -2,6 +2,7 @@
 import Nav from "../components/Nav.vue";
 import "../main.css";
 import { ClientRouter } from "astro:transitions";
+import Analytics from '@vercel/analytics/astro'
 
 interface Props {
 	title: string;
@@ -144,6 +145,7 @@ const config = {
         <img src="/assets/s4mgoh.webp" class="avatar rounded-xl w-10 h-10"/>
       </div>
     </div>
+    <Analytics/>
 	</body>
 </html>
 
