@@ -1,23 +1,43 @@
 "2025": 
+  - name: DSTA CDDC BrainHack Finals (Pre-Uni)
+    date: 2025-06-12
+    rank: 21st place
+    type: ctf-average-place
+    link: 
+
+  - name: NUS GreyCTF
+    date: 2025-06-01
+    rank: 
+    type: ctf-average-place
+    link: 
+
+  - name: DSTA CDDC BrainHack Qualifiers (Pre-Uni)
+    date: 2025-05-24
+    rank: 39th place
+    type: ctf-average-place
+    link: https://www.dsta.gov.sg/docs/default-source/brainhack-documents/cddc-2025-qualifiers-scoreboard.pdf?sfvrsn=89754ec5_1
+
   - name: CyberLeague Season 2 Major
     date: 2025-01-11
     rank: 
-    type: ctf-third-place
+    type: ctf-average-place
     link: 
 
   - name: SNYK Fetch The Flag
     date: 2025-02-27
     rank: 
-    type: ctf-third-place
+    type: ctf-average-place
+    link: 
 
 "2024": 
-  - name: DSTA BrainHack
+  - name: DSTA CDDC BrainHack (DIS Sentinel Programme)
     date: 2024-06-13
     rank: 
-    type: ctf-third-place
+    type: ctf-average-place
     link: 
 
   - name: Cisco NetAcad & FSA CTF
     date: 2024-11-15
     rank: 2nd place
     type: ctf-second-place
+    link: 
