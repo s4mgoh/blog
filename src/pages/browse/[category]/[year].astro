@@ -1,6 +1,7 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import Card from "@components/Card.vue";
+import FiltersBox from "@components/FiltersBox.vue";
 import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
@@ -44,30 +45,13 @@ const { categories, years, posts } = Astro.props;
 <Layout title="s4mgoh's blog">
   <div class="pt-[100px] relative">
     <div class="mx-10 w-auto md:mx-auto md:w-[668px] lg:w-[924px]">
-      <details open class="group p-5 mb-5 bg-[--primary-bg-transparent-80] border border-[--secondary-bg] rounded-lg">
-        <summary class="flex justify-between">
-          <h3>Filters</h3>
-          <i class="transition-all my-auto text-sm text-white fa-regular fa-chevron-down group-open:rotate-180"></i>
-        </summary>
-        <div class="mt-3 pt-3 select-none border-t border-[--secondary-bg]">
-          <h5>Categories</h5>
-          <div class="flex flex-wrap justify-start gap-3 pt-2 pb-3 text-md">
-            {categories.map(c => (
-            <a data-is-selected={c === category} href={`/browse/${c}`} class="select-year p-2 rounded-lg border border-[--secondary-bg]">
-              {c}
-            </a>
-            ))}
-          </div>
-          <h5>Years</h5>
-          <div class="flex flex-wrap justify-start gap-3 pt-2 text-md">
-            {years.map(y => (
-            <a data-is-selected={y === year} href={`/browse/${category}/${y}`} class="select-year p-2 rounded-lg border border-[--secondary-bg]">
-              {y}
-            </a>
-            ))}
-          </div>
-        </div>
-      </details>
+      <FiltersBox
+        client:load
+        categories={categories}
+        years={years}
+        category={category}
+        year={year}
+      />
       <div class="flex flex-col gap-10">
         {posts.map((post: any) => (
         <Card>
