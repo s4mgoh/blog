@@ -560,7 +560,7 @@ While I won't be implementing all the steps in the Cyber Kill Chain, I will be f
 
 23) Since I know that the password will be changed to `password` upon reset, I attempted to log into potato-helpdesk's account in the Potato VM with `password` & and was successful.
 
-    ![Potato-Helpdesk_Account_Successful_Login](@images/2025/potato-vm-writeup/Potato-Helpdesk_Successful_Login.png)
+    ![Potato-Helpdesk_Account_Successful_Login](@images/2025/potato-vm-writeup/Potato_Helpdesk_Account_Successful_Login.png)
 
 24) After successful login, our goal should always be to either obtain root access or obtain the flag. Navigating to the `/home/potato-helpdesk` directory, I opened a terminal & attempted to read the contents of `flag.txt` via the command `cat flag.txt` which failed. Using `sudo`, the flag was obtained.
 
