@@ -173,7 +173,7 @@ While I won't be implementing all the steps in the Cyber Kill Chain, I will be f
 
 13) Successful [SQL Injection](https://owasp.org/www-community/attacks/SQL_Injection) into `Student Login` webpage:
    
-    ![HTTPS_potatos.potato-school.com_Student_Login_SQL_Injection_Success](@images/2025/otato-vm-writeup/HTTPS_potatos.potato-school.com_Student_Login_SQL_Injection_Success.png)
+    ![HTTPS_potatos.potato-school.com_Student_Login_SQL_Injection_Success](@images/2025/potato-vm-writeup/HTTPS_potatos.potato-school.com_Student_Login_SQL_Injection_Success.png)
 
 14) With the successful [SQL Injection](https://owasp.org/www-community/attacks/SQL_Injection), we can see that we are logged in as `Malcolm`, with his personal data such as his class `CY2304U` & email `malcolm@potato-school.com`. Also, we can see various learning resources but are unable to access them (We will keep them in mind for now):
 
