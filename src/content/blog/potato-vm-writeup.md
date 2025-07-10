@@ -26,7 +26,7 @@ Ensuring that my [Kali Linux](https://www.kali.org/) (Attacking Machine) & the P
 ## Fun Time!
 Powering on Potato VM shows us that it is using Debian, and two user accounts are available for usage, ***cabbage*** & ***potato-helpdesk***.
 
-![Debian_Login_Page](@images/2025/potato-vm-writeup/Debian_Login_Page.png)
+![Debian_Login_Page](@images/2025/writeups/potato-vm-writeup/Debian_Login_Page.png)
 
 ***Cyber Kill Chain = Reconnaissance --> Weaponization --> Delivery --> Exploitation --> Installation --> Command & Control (C2) --> Actions on Objectives***
 
@@ -128,17 +128,17 @@ While I won't be implementing all the steps in the Cyber Kill Chain, I will be f
 
 7) Since there aren't any vulnerabilities in the output of the scan, I decided to use a web browser ([Mozilla](https://github.com/mozilla)) & access the website of the Potato VM since we saw that both HTTP & HTTPS ports were open alongside the word "Apache", by typing the IP address of the Pohhtato VM in the URL bar `192.168.233.135`:
 
-   ![HTTP_192.168.233.135_Access](@images/2025/potato-vm-writeup/HTTP_192.168.233.135_Access.png)
+   ![HTTP_192.168.233.135_Access](@images/2025/writeups/potato-vm-writeup/HTTP_192.168.233.135_Access.png)
 
 8) Access the website using HTTP doesn't seem to work & it gives the word "Forbidden", which is HTTP response code 403. Since I am unable to access the webpage via HTTP, I decided to add HTTPS:// at the front of the IP address when typing it into the URL bar `https://192.168.233.135`:
 
-   ![HTTPS_192.168.233.135_Invalid_Security_Certificate](@images/2025/potato-vm-writeup/HTTPS_192.168.233.135_Invalid_Security_Certificate.png)
+   ![HTTPS_192.168.233.135_Invalid_Security_Certificate](@images/2025/writeups/potato-vm-writeup/HTTPS_192.168.233.135_Invalid_Security_Certificate.png)
 
 9) Seeing the Invalid Security Certificate popup reminded me of a task in [TryHackMe Advent of Cyber 2024](https://tryhackme.com/christmas/) regarding Certificate Mismanagement. Further exploration showed that the Common Name & Issuer of the certificate was ***potatos.potato-school.com***. When attempting to access the website ***potatos.potato-school.com***, it failed because the system isn't resolving ***potatos.potato-school.com*** to ***192.168.233.135***. In order to change that, I used the following commands: `sudo su` &`echo "192.168.233.135 potatos.potato-school.com >> /etc/hosts"`, which then allowed me to access the website.
 
-   ![Invalid_Security_Certificate_Detail](@images/2025/potato-vm-writeup/Invalid_Security_Certificate_Detail.png)
-   ![Server_Not_Found](@images/2025/potato-vm-writeup/Server_Not_Found.png)
-   ![HTTPS_potatos.potato-school.com_ACCESS](@images/2025/potato-vm-writeup/HTTPS_potatos.potato-school.com_ACCESS.png)
+   ![Invalid_Security_Certificate_Detail](@images/2025/writeups/potato-vm-writeup/Invalid_Security_Certificate_Detail.png)
+   ![Server_Not_Found](@images/2025/writeups/potato-vm-writeup/Server_Not_Found.png)
+   ![HTTPS_potatos.potato-school.com_ACCESS](@images/2025/writeups/potato-vm-writeup/HTTPS_potatos.potato-school.com_ACCESS.png)
 
    Previously, I found the `/robots.txt` file & `/briefingnotes.txt` file, which I attempted to access to see what information is there:
 
@@ -159,21 +159,21 @@ While I won't be implementing all the steps in the Cyber Kill Chain, I will be f
    
 10) Since the webpage seems to be normal & we knew that only 2 ports were open, I decided to try Directory Brute-forcing using the application [Dirbuster](https://www.kali.org/tools/dirbuster/). First, I filled in the type `https://potatos.potato-school.com` in the _Target URL_ field, ticked the checkbox _Go Faster_, used the wordlist _/usr/share/wordlists/Discovery/Web-Content/common.txt_, and pressed `Start`.
 
-    ![Dirbuster Application Interface](@images/2025/potato-vm-writeup/Dirbuster_Application_Interface.png)
+    ![Dirbuster Application Interface](@images/2025/writeups/potato-vm-writeup/Dirbuster_Application_Interface.png)
    
 11) Upon completion of the brute-force, we received the following results when navigating to the `Results - List View: Dirs: XX Files: XX`, we can see the followwing directories & files that gave a HTTP response code of 200: The root directory `/` & the file `/login.php`.
 
-    ![Dirbuster_Application_Scan_Result](@images/2025/potato-vm-writeup/Dirbuster_Application_Scan_Result.png)
+    ![Dirbuster_Application_Scan_Result](@images/2025/writeups/potato-vm-writeup/Dirbuster_Application_Scan_Result.png)
 
 12) Since we can see that `/login.php` gave a HTTP response code of 200, I decided to access the page which showed a simple `Student Login` page. Since the webpage showed a simple login page, I decided to use a simple attack method: [SQL Injection](https://owasp.org/www-community/attacks/SQL_Injection), and inserted `' OR 1 = 1 #` into the `Name` field & a random character in the `Password` field.
 
-    ![HTTPS_potatos.potato-school.com_login.php](@images/2025/potato-vm-writeup/HTTPS_potatos.potato-school.com_login.php.png)
+    ![HTTPS_potatos.potato-school.com_login.php](@images/2025/writeups/potato-vm-writeup/HTTPS_potatos.potato-school.com_login.php.png)
 
 ## SQL Injection & Mapping
 
 13) Successful [SQL Injection](https://owasp.org/www-community/attacks/SQL_Injection) into `Student Login` webpage:
    
-    ![HTTPS_potatos.potato-school.com_Student_Login_SQL_Injection_Success](@images/2025/potato-vm-writeup/HTTPS_potatos.potato-school.com_Student_Login_SQL_Injection_Success.png)
+    ![HTTPS_potatos.potato-school.com_Student_Login_SQL_Injection_Success](@images/2025/writeups/potato-vm-writeup/HTTPS_potatos.potato-school.com_Student_Login_SQL_Injection_Success.png)
 
 14) With the successful [SQL Injection](https://owasp.org/www-community/attacks/SQL_Injection), we can see that we are logged in as `Malcolm`, with his personal data such as his class `CY2304U` & email `malcolm@potato-school.com`. Also, we can see various learning resources but are unable to access them (We will keep them in mind for now):
 
@@ -185,7 +185,7 @@ While I won't be implementing all the steps in the Cyber Kill Chain, I will be f
 
     Lastly, we can see a hyperlink in the webpage `Roundcube Webmail`, which opens a web mail application.
 
-    ![Roundcube_Webmail_Login_Page](@images/2025/potato-vm-writeup/Roundcube_Webmail_Login_Page.png)
+    ![Roundcube_Webmail_Login_Page](@images/2025/writeups/potato-vm-writeup/Roundcube_Webmail_Login_Page.png)
 
     Since I managed to access `Malcolm`'s account, but am unable to access any accounts with invalid credentials, I assumed that there could be a database in the backend.
 
@@ -215,21 +215,21 @@ While I won't be implementing all the steps in the Cyber Kill Chain, I will be f
 
     In the password column, we can see a string of random characters which seems to be hashes. Using [Crackstation](https://crackstation.net), we recieved the output of the cracked hash for eunchae which is _manchae_.
 
-    ![Eunchae_Crackstation_Cracked_Hash](@images/2025/potato-vm-writeup/Eunchae_Crackstation_Cracked_Hash.png)
+    ![Eunchae_Crackstation_Cracked_Hash](@images/2025/writeups/potato-vm-writeup/Eunchae_Crackstation_Cracked_Hash.png)
 
     Now that I have the password of Eunchae's account, I attempted to login into RoundCube Webmail with Eunchae credentials.
 
 15) Logging into Eunchae's account, the following 2 emails stood out the most, one stating the URL of the new dashboard (website) & the other stating that class would be cancelled due to the school's 18th anniversary.
 
-    ![Roundcube_Webmail_New_Dashboard_Email](@images/2025/potato-vm-writeup/Roundcube_Webmail_New_Dashboard_Email.png)
-    ![Roundcube_Webmail_Class_Cancellation_Email](@images/2025/potato-vm-writeup/Roundcube_Webmail_Class_Cancellation_Email.png)
+    ![Roundcube_Webmail_New_Dashboard_Email](@images/2025/writeups/potato-vm-writeup/Roundcube_Webmail_New_Dashboard_Email.png)
+    ![Roundcube_Webmail_Class_Cancellation_Email](@images/2025/writeups/potato-vm-writeup/Roundcube_Webmail_Class_Cancellation_Email.png)
 
     If we recall previously, it was stated in the `/briefingnotes.txt` that the password for a file is the school's anniversary date in DD/MM/YYYY format. With the email, we can deduce that the school's anniversary date is _12/11/2006_.
 
 16) Opening the link stated in Eunchae's inbox `https://potatos.potato-school.com/new_dashboard/login.php` brings us to login page. As the email stated, all user accounts (students, most likely) had their password reset to `P@$$w0rd`, attempting to login with `Eunchae` as the username & `P@$$w0rd` was successful and allowed us to navigate through the new dashboard, upon changing the password, which I changed to `manchae`.
 
-    ![New_Dashboard_Login.php](@images/2025/potato-vm-writeup/New_Dashboard_Login.php.png)
-    ![New_Dashboard_Login.pup_Eunchae_Success](@images/2025/potato-vm-writeup/New_Dashboard_Login.pup_Eunchae_Success.png)
+    ![New_Dashboard_Login.php](@images/2025/writeups/potato-vm-writeup/New_Dashboard_Login.php.png)
+    ![New_Dashboard_Login.pup_Eunchae_Success](@images/2025/writeups/potato-vm-writeup/New_Dashboard_Login.pup_Eunchae_Success.png)
 
     Exploring the various sections, tabs, and buttons in the new dashboard, the one that stood out the most was `Retrieve User Data`. Clicking on `Retrieve User Data` showed that the URL changed to `https://potatos.potato-school.com/new_dashboard/index.php?data_path=%2Feunchae%2Feunchae_data`. In the URL, the path as to which the data is obtained from was stated, which brought to my mind the attack known as [Path Traversal](https://owasp.org/www-community/attacks/Path_Traversal).
 
@@ -423,13 +423,13 @@ While I won't be implementing all the steps in the Cyber Kill Chain, I will be f
     Password : p0tat0-sch00l-d4-b3st
     ```
 
-    ![CyberChef_Output](@images/2025/potato-vm-writeup/CyberChef_Output.png)
+    ![CyberChef_Output](@images/2025/writeups/potato-vm-writeup/CyberChef_Output.png)
 
 ## Command Injection
 
 21) With the Username `Shared_Account` & Password `p0tat0-sch00l-d4-b3st`, I decided to head back to the New Dashboard `https://potatos.potato-school.com/new_dashboard/login.php` & login with those credentials & was successful.
 
-    ![Staff_Account_Login_New_Dashboard](@images/2025/potato-vm-writeup/Staff_Account_Login_New_Dashboard.png)
+    ![Staff_Account_Login_New_Dashboard](@images/2025/writeups/potato-vm-writeup/Staff_Account_Login_New_Dashboard.png)
 
     Upon successful login, I did some exploration & found that when clicking the button `Search` in the `Home` tab after typing some random letters such as the letter "a", the URL showed the following:
 
@@ -437,7 +437,7 @@ While I won't be implementing all the steps in the Cyber Kill Chain, I will be f
 
     Additionally, the output also showed files that had the letter "a" included inside. The file `/home/potato-helpdesk/reset_password.sh` was the most stood out the most.
 
-    ![Staff_Dashboard_Search_Field](@images/2025/potato-vm-writeup/Staff_Dashboard_Search_Field.png)
+    ![Staff_Dashboard_Search_Field](@images/2025/writeups/potato-vm-writeup/Staff_Dashboard_Search_Field.png)
 
     After many attempts to read the file with various commands like `cat /potato-helpdesk/reset_password.sh`, I decided to search online found a github repo [PayloadsAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Command%20Injection/README.md#chaining-commands) that showed the different methods of Command Injection, allowing me to successfully read the file by adding a semi-colon in front of the command: `;cat /home/potato-helpdesk/reset_password.sh`, giving the following output:
 
@@ -560,10 +560,10 @@ While I won't be implementing all the steps in the Cyber Kill Chain, I will be f
 
 23) Since I know that the password will be changed to `password` upon reset, I attempted to log into potato-helpdesk's account in the Potato VM with `password` & and was successful.
 
-    ![Potato-Helpdesk_Account_Successful_Login](@images/2025/potato-vm-writeup/Potato_Helpdesk_Account_Successful_Login.png)
+    ![Potato-Helpdesk_Account_Successful_Login](@images/2025/writeups/potato-vm-writeup/Potato_Helpdesk_Account_Successful_Login.png)
 
 24) After successful login, our goal should always be to either obtain root access or obtain the flag. Navigating to the `/home/potato-helpdesk` directory, I opened a terminal & attempted to read the contents of `flag.txt` via the command `cat flag.txt` which failed. Using `sudo`, the flag was obtained.
 
-    ![Flag_Obtained](@images/2025/potato-vm-writeup/Flag_Obtained.png)
+    ![Flag_Obtained](@images/2025/writeups/potato-vm-writeup/Flag_Obtained.png)
 
 # The End
