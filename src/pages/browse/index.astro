@@ -1,4 +1,8 @@
 ---
-// HARDCODED
-return Astro.rewrite("/browse/writeups")
+import { getCollection } from "astro:content";
+
+const allPosts = await getCollection("blog");
+const allCategories = [...new Set(allPosts.map((p) => p.data.category))].sort();
+const earliestCategory = allCategories[0];
+return Astro.rewrite(`/browse/${earliestCategory}`);
 ---
