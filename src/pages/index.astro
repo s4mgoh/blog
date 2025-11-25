@@ -97,7 +97,8 @@ import TypedWrapper from "@components/TypedWrapper.vue";
           </Card>
           ))}
         </div>
-        <div class="hidden sm:flex justify-center mt-3 h-10 gap-3">
+        <!-- Added margin-bottom to create space between CTF arrows and Map section -->
+        <div class="hidden sm:flex justify-center mt-3 h-10 gap-3 mb-10">
           <button data-left-button class="hidden h-full sm:inline-block rounded-lg w-2/12 bg-[--primary-bg-transparent-60] hover:bg-[--primary-color] border border-[--secondary-bg] text-[--second-text-color] hover:text-[--primary-bg] transition-all">
             <i class="fa-regular fa-angle-left"></i>
           </button>
@@ -105,6 +106,24 @@ import TypedWrapper from "@components/TypedWrapper.vue";
             <i class="fa-regular fa-angle-right"></i>
           </button>
         </div>
+      </div>
+
+      <!-- Google Map Section -->
+      <div class="w-full z-10">
+        <Card>
+          <!-- Added margin-bottom to create space between title and iframe -->
+          <h2 class="home-h2 text-center mb-4">Cycling Journey 2026 (Fukuoka to Tokyo)</h2>
+          <div class="iframe-container">
+            <iframe 
+              src="https://www.google.com/maps/d/embed?mid=1VILUqfCWziSzJ81dlHxnsKbSQeGCFWA&ehbc=2E312F" 
+              width="100%" 
+              height="450" 
+              style="border:0;" 
+              allowfullscreen="" 
+              loading="lazy">
+            </iframe>
+          </div>
+        </Card>
       </div>
     </div>
   </div>
